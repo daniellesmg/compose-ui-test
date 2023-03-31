@@ -6,15 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.br.wcabral.kotlin.android.githubcompose.ui.navigation.AppNavigation
 import com.br.wcabral.kotlin.android.githubcompose.ui.theme.GithubComposeTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GithubComposeTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    SimpleApp()
+                    SimpleAsyncApp()
                 }
             }
         }
@@ -54,7 +55,7 @@ fun SimpleApp() {
         Button(onClick = {
 
             counter.value--
-        }) {
+        }, modifier = Modifier.testTag("downbutton")) {
             Text(text = "Down")
         }
 
@@ -77,7 +78,6 @@ fun SimpleApp() {
 }
 
 
-
 @Composable
 fun SimpleListApp() {
 
@@ -88,9 +88,12 @@ fun SimpleListApp() {
 
         items(list) {
 
-            Row (modifier = Modifier.padding(16.dp)){
-                    Text(text = "I am number ")
-                    Text(text =  it.toString() )
+            Column(modifier = Modifier.padding(16.dp).testTag("column")) {
+
+                Text(text = "I am number $it", modifier = Modifier.testTag("title"))
+                Divider()
+                Text(text = "Desc $it", modifier = Modifier.testTag("desc"))
+                Divider()
             }
         }
     }

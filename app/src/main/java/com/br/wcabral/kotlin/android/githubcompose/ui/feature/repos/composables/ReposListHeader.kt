@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +62,7 @@ fun ScoreSession(userDetail: UserDetail) {
             url = userDetail.avatarUrl,
             placeholder = R.drawable.avatar_placeholder,
             modifier = Modifier
+                .testTag("avatar")
                 .size(dimensionResource(id = R.dimen.avatar_size_large))
                 .padding(end = dimensionResource(id = R.dimen.padding_medium))
         )

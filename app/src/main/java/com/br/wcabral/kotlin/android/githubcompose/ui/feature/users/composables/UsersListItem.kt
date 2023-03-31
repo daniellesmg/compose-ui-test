@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,6 +20,7 @@ import com.br.wcabral.kotlin.android.githubcompose.ui.feature.common.RoundedImag
 @Composable
 fun UsersListItem(
     user: User,
+    index: Int,
     onItemClick: (User) -> Unit
 ) {
     val paddingXXSmall = dimensionResource(id = R.dimen.padding_xxsmall)
@@ -28,6 +30,7 @@ fun UsersListItem(
 
     Column(
         modifier = Modifier
+            .testTag("position=$index")
             .fillMaxWidth()
             .clickable {
                 onItemClick(user)
@@ -70,8 +73,3 @@ fun UsersListItem(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun UsersListItemPreview() {
-    UsersListItem(user = buildUserPreview(), onItemClick = {})
-}

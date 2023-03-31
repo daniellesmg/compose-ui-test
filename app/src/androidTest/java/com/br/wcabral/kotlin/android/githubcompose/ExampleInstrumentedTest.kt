@@ -29,14 +29,22 @@ class ExampleInstrumentedTest {
 
 
         repeat(5) {
+
             composeTestRule.onNodeWithText("Up")
                 .performClick()
         }
 
-
         composeTestRule.onNodeWithTag("Content")
             .assert(hasText("6"))
 
+        repeat(5) {
+
+            composeTestRule.onNodeWithTag("downbutton")
+                .performClick()
+        }
+
+        composeTestRule.onNodeWithTag("Content")
+            .assert(hasText("1"))
     }
 
 
@@ -45,13 +53,50 @@ class ExampleInstrumentedTest {
 
 
         composeTestRule.onNodeWithTag("mylist")
-            .performScrollToIndex(20)
+            .performScrollToIndex(26)
 
 
+        composeTestRule.onNodeWithText("I am number 26")
+            .onAncestors()
+            .onFirst()
+            .onChildren()
+            .filterToOne(hasTestTag("desc"))
+            .assert(hasText("Desc 26"))
 
-        composeTestRule.onNodeWithText("I am number 9").assertIsDisplayed()
-            .assert(hasText("I am number 9"))
-            .assertExists()
+
+        composeTestRule.onNodeWithText("I am number 26")
+            .onParent()
+            .onChildren()
+            .filterToOne(hasTestTag("desc"))
+            .assert(hasText("Desc 26"))
+    }
+
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun async() {
+
+
+        composeTestRule.onNodeWithText("Up")
+            .performClick()
+
+        composeTestRule.waitUntilExactlyOneExists(hasTestTag("Content").and(hasText("2")), 5000L)
+
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun asyncApiCall() {
+
+
+        composeTestRule.waitUntilAtLeastOneExists(hasTestTag("githublist"), 10000L)
+
+        composeTestRule.onNodeWithTag("githublist")
+            .onChildren()
+            .filterToOne(hasTestTag("position=3"))
+            .performClick()
+
+        composeTestRule.waitUntilAtLeastOneExists(hasTestTag("avatar"), 10000L)
 
     }
 }

@@ -1,9 +1,8 @@
 package com.br.wcabral.kotlin.android.githubcompose.ui.feature.users.composables
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -16,14 +15,15 @@ fun UsersList(
     users: List<User>,
     onItemClick: (User) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()
+
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()
         .testTag("githublist")) {
-        LazyColumn {
-            items(users) { user ->
-                UsersListItem(user = user, onItemClick = onItemClick)
-            }
+        itemsIndexed(users) { index, user ->
+            UsersListItem(user = user, index, onItemClick = onItemClick)
         }
     }
+
 }
 
 @Preview(showBackground = true)
